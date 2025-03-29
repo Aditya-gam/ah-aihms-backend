@@ -27,4 +27,4 @@ jobs:
         run: pipenv run lint
 
       - name: Run Tests
-        run: echo "⚠️ Add pytest or unit tests here in the future"
+        run: pipenv run pytest tests/
