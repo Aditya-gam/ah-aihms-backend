@@ -3,6 +3,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[scripts]
+lint = "flake8 app"
+format = "sh -c 'black app && isort app'"
+
 [packages]
 flask = "==3.0.2"
 
