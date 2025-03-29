@@ -3,7 +3,7 @@ services:
     build: .
     container_name: ah-aihms-backend
     ports:
-      - "6000:5000"
+      - "5001:5000"
     environment:
       - FLASK_ENV=aihmsserver
       - SECRET_KEY=supersecurekey
