@@ -10,8 +10,9 @@ format = "sh -c 'black app && isort app'"
 [packages]
 flask = "==3.0.2"
 python-dotenv = "*"
-mongoengine = "*"
 dnspython = "*"
+mongoengine = "*"
+flask-mongoengine = "*"
 
 [dev-packages]
 black = "==24.1.0"
