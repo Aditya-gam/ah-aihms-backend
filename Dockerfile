@@ -2,12 +2,15 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy Pipenv files first for efficient layer caching
+# Install dependencies using Pipenv
 COPY Pipfile* ./
-RUN pip install --no-cache-dir pipenv && pipenv install --system --deploy
+RUN pip install pipenv && pipenv install --system --deploy --ignore-pipfile
 
-# Copy the rest of the code
 COPY . .
 
-# Default command to run the Flask app
-CMD ["flask", "run", "--host=0.0.0.0"]
+ENV FLASK_APP=run.py
+ENV FLASK_ENV=production
+
+EXPOSE 5000
+
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "run:app"]
