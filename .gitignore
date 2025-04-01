@@ -6,7 +6,7 @@ __pycache__/
 # Env & Pipenv
 .env
 .venv/
-Pipfile.lock
+# Pipfile.lock
 
 # VSCode/PyCharm
 .vscode/
