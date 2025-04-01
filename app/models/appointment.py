@@ -103,4 +103,8 @@ class Appointment(db.Document):
         appointment_id = self.id
         appointment_patient = self.patient_id
         appointment_doctor = self.doctor_id
-        return f"Appointment({appointment_id}): {appointment_patient} with {appointment_doctor} at {appointment_time}[{appointment_status}]"
+
+        return (
+            f"Appointment({appointment_id}): {appointment_patient} with "
+            f"{appointment_doctor} at {appointment_time}[{appointment_status}]"
+        )
