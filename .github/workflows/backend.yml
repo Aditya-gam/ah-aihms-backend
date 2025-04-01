@@ -2,7 +2,7 @@ name: Backend CI/CD
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master" ]  # Run only on master branch push
 
 jobs:
   backend:
@@ -17,20 +17,40 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 📦 Install Dependencies (App + Dev)
+      - name: 💾 Cache Python Dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            .venv
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/dev-requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: 📦 Install Dependencies
         run: |
-          python -m venv venv
-          source venv/bin/activate
+          python -m venv .venv
+          source .venv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r dev-requirements.txt
 
-      - name: 🧹 Run Linter (flake8)
+      - name: 🧹 Run Linters (flake8, black, isort)
         run: |
-          source venv/bin/activate
+          source .venv/bin/activate
+          black --check app
+          isort --check-only app
           flake8 app
 
       - name: ✅ Run Tests (pytest)
         run: |
-          source venv/bin/activate
-          PYTHONPATH=. pytest tests/
+          source .venv/bin/activate
+          PYTHONPATH=. pytest tests/ --cov=app --cov-report=xml
+
+      - name: 📤 Upload Coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          flags: backend
+          name: backend-coverage
