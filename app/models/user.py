@@ -12,8 +12,6 @@ from mongoengine import (
     StringField,
 )
 
-# from app import db
-
 # Nested document for Emergency Contact
 
 
