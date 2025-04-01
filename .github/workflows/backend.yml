@@ -2,7 +2,7 @@ name: Backend CI/CD
 
 on:
   push:
-    branches: [ "master" ]  # runs only on master push
+    branches: [ "master" ]
 
 jobs:
   backend:
@@ -17,14 +17,20 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 📦 Install Pipenv and Dependencies
+      - name: 📦 Install Dependencies (App + Dev)
         run: |
+          python -m venv venv
+          source venv/bin/activate
           python -m pip install --upgrade pip
-          python -m pip install pipenv
-          pipenv install --dev  # includes flask, black, flake8, pytest
+          pip install -r requirements.txt
+          pip install -r dev-requirements.txt
 
       - name: 🧹 Run Linter (flake8)
-        run: pipenv run lint
+        run: |
+          source venv/bin/activate
+          flake8 app
 
       - name: ✅ Run Tests (pytest)
-        run: PYTHONPATH=. pipenv run pytest tests/
+        run: |
+          source venv/bin/activate
+          PYTHONPATH=. pytest tests/
