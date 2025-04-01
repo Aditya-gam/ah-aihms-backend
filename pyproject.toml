@@ -1,7 +1,26 @@
-[tool.flake8]
-max-line-length = 100
-exclude = [
-    ".venv",
-    "__pycache__",
-    "migrations"
-]
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+exclude = '''
+/(
+    \.venv
+  | __pycache__
+  | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip = [".venv", "migrations", "__pycache__"]
+
+[tool.ruff]
+line-length = 100
+exclude = [".venv", "migrations", "__pycache__"]
+target-version = "py311"
+fix = true
+show-fixes = true
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = []
