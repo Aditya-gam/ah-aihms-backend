@@ -1,0 +1,10 @@
+# dev-requirements.in
+
+-r requirements.in
+
+black==24.1.0
+isort==5.12.0
+flake8==7.0.0
+ruff==0.3.0
+pytest==8.3.5
+pip-tools

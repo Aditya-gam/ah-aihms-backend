@@ -3,6 +3,8 @@
 The official backend for the **AI-Driven Healthcare Management System (AH-AIHMS)** — built with **Flask**, containerized using **Docker**, managed via **Pipenv**, and deployed through **GitHub Actions CI/CD**. This backend serves secure REST APIs for authentication, patient records, appointments, blockchain integrations, and AI-powered health analytics.
 
 ![CI/CD](https://github.com/Aditya-gam/ah-aihms-backend/actions/workflows/backend.yml/badge.svg)
+[![codecov](https://codecov.io/gh/Aditya-gam/ah-aihms-backend/branch/master/graph/badge.svg?token=CODECOV_TOKEN)](https://codecov.io/gh/Aditya-gam/ah-aihms-backend)
+
 
 ---
 

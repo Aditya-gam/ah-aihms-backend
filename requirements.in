@@ -1,0 +1,8 @@
+# requirements.in
+
+flask==3.0.2
+flask-mongoengine @ git+https://github.com/closeio/flask-mongoengine.git@513391afd1e9c71ffcf2cfed84d1441a830ae708
+mongoengine==0.29.1
+python-dotenv==1.1.0
+dnspython==2.7.0
+gunicorn==23.0.0

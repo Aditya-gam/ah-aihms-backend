@@ -2,7 +2,7 @@ name: Backend CI/CD
 
 on:
   push:
-    branches: [ "master" ]  # Run only on master branch push
+    branches: [ "master" ]  # Trigger only on master
 
 jobs:
   backend:
@@ -35,14 +35,15 @@ jobs:
           pip install -r requirements.txt
           pip install -r dev-requirements.txt
 
-      - name: 🧹 Run Linters (flake8, black, isort)
+      - name: 🧹 Run Linters (black, isort, ruff, flake8)
         run: |
           source .venv/bin/activate
           black --check app
           isort --check-only app
+          ruff check app
           flake8 app
 
-      - name: ✅ Run Tests (pytest)
+      - name: ✅ Run Tests (pytest with coverage)
         run: |
           source .venv/bin/activate
           PYTHONPATH=. pytest tests/ --cov=app --cov-report=xml
@@ -54,3 +55,7 @@ jobs:
           files: ./coverage.xml
           flags: backend
           name: backend-coverage
+
+      - name: 🚀 Trigger Render Deployment
+        if: success()
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
