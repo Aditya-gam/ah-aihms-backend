@@ -2,10 +2,14 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install dependencies using Pipenv
-COPY Pipfile* ./
-RUN pip install pipenv && pipenv install --system --deploy --ignore-pipfile
+# System dependencies
+RUN apt-get update && apt-get install -y git
 
+# Copy and install requirements
+COPY requirements.txt ./
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# Copy the app
 COPY . .
 
 ENV FLASK_APP=run.py
