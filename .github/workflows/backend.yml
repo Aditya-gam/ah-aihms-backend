@@ -35,13 +35,12 @@ jobs:
           pip install -r requirements.txt
           pip install -r dev-requirements.txt
 
-      - name: 🧹 Run Linters (black, isort, ruff, flake8)
+      - name: 🧹 Run Linters (black, isort, ruff)
         run: |
           source .venv/bin/activate
           black --check app
           isort --check-only app
           ruff check app
-          flake8 app
 
       - name: 🎨 Check Black Formatting
         run: |
