@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ceece23ca33db1d308ca2c7a4d4a761082cc0c37b10488c56d0bbae4b3a523f8"
+            "sha256": "888a9693ed1d81890cf2028a609f0205bd5b39c6be0f1ee8e1f24351948dd624"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -42,14 +42,6 @@
             "markers": "python_version >= '3.9'",
             "version": "==2.7.0"
         },
-        "email-validator": {
-            "hashes": [
-                "sha256:561977c2d73ce3611850a06fa56b414621e0c8faa9d66f2611407d87465da631",
-                "sha256:cb690f344c617a714f22e66ae771445a1ceb46821152df8e165c5f9a364582b7"
-            ],
-            "markers": "python_version >= '3.8'",
-            "version": "==2.2.0"
-        },
         "flask": {
             "hashes": [
                 "sha256:3232e0e9c850d781933cf0207523d1ece087eb8d87b23777ae38456e2fbe7c6e",
@@ -60,12 +52,10 @@
             "version": "==3.0.2"
         },
         "flask-mongoengine": {
-            "hashes": [
-                "sha256:2db13140ce7f61a935e75268190450d5ecc9b60a7310fd289f9511835aa105d4",
-                "sha256:ce68726d2be8d88006e88f17e4be3b7ad07c79ca8dedb60653d3dab5d9485840"
-            ],
-            "index": "pypi",
-            "version": "==1.0.0"
+            "editable": false,
+            "git": "https://github.com/closeio/flask-mongoengine.git",
+            "ref": "513391afd1e9c71ffcf2cfed84d1441a830ae708",
+            "subdirectory": "."
         },
         "flask-wtf": {
             "hashes": [
@@ -83,14 +73,6 @@
             "index": "pypi",
             "markers": "python_version >= '3.7'",
             "version": "==23.0.0"
-        },
-        "idna": {
-            "hashes": [
-                "sha256:12f65c9b470abda6dc35cf8e63cc574b1c52b11df2c86030af0ac09b01b13ea9",
-                "sha256:946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d3"
-            ],
-            "markers": "python_version >= '3.6'",
-            "version": "==3.10"
         },
         "itsdangerous": {
             "hashes": [
@@ -264,6 +246,14 @@
             "markers": "python_version >= '3.9'",
             "version": "==1.1.0"
         },
+        "six": {
+            "hashes": [
+                "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
+                "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
+            ],
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+            "version": "==1.17.0"
+        },
         "werkzeug": {
             "hashes": [
                 "sha256:54b78bf3716d19a65be4fceccc0d1d7b89e608834989dfae50ea87564639213e",
@@ -273,9 +263,6 @@
             "version": "==3.1.3"
         },
         "wtforms": {
-            "extras": [
-                "email"
-            ],
             "hashes": [
                 "sha256:583bad77ba1dd7286463f21e11aa3043ca4869d03575921d1a1698d0715e0fd4",
                 "sha256:df3e6b70f3192e92623128123ec8dca3067df9cfadd43d59681e210cfb8d4682"
