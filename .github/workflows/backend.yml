@@ -43,6 +43,13 @@ jobs:
           ruff check app
           flake8 app
 
+      - name: 🎨 Check Black Formatting
+        run: |
+          source .venv/bin/activate
+          echo "🔍 Checking Black formatting..."
+          black --check app || (echo "❌ Black found formatting issues. Please run 'black app' locally and commit the changes." && exit 1)
+          
+
       - name: ✅ Run Tests (pytest with coverage)
         run: |
           source .venv/bin/activate

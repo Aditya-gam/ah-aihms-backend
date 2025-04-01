@@ -1,17 +1,18 @@
-from app import db
-from mongoengine import (
-    Document,
-    StringField,
-    EmailField,
-    DateTimeField,
-    BooleanField,
-    EnumField,
-    EmbeddedDocument,
-    EmbeddedDocumentField,
-    ObjectIdField
-)
 import datetime
 from datetime import UTC
+
+from mongoengine import DateTimeField  # ObjectIdField,
+from mongoengine import (
+    BooleanField,
+    Document,
+    EmailField,
+    EmbeddedDocument,
+    EmbeddedDocumentField,
+    EnumField,
+    StringField,
+)
+
+# from app import db
 
 # Nested document for Emergency Contact
 
@@ -20,6 +21,7 @@ class EmergencyContact(EmbeddedDocument):
     name = StringField(required=True, max_length=100)
     relationship = StringField(required=True, max_length=50)
     phone_number = StringField(required=True, max_length=20)
+
 
 # Nested document for Insurance Information (can expand as needed)
 
@@ -34,12 +36,12 @@ class InsuranceInfo(EmbeddedDocument):
 
 class User(Document):
     meta = {
-        'collection': 'users',
-        'indexes': [
-            {'fields': ['email'], 'unique': True},
-            {'fields': ['role']},
-            {'fields': ['oauth_provider', 'oauth_id'], 'unique': True, 'sparse': True}
-        ]
+        "collection": "users",
+        "indexes": [
+            {"fields": ["email"], "unique": True},
+            {"fields": ["role"]},
+            {"fields": ["oauth_provider", "oauth_id"], "unique": True, "sparse": True},
+        ],
     }
 
     # Basic user identification
@@ -47,7 +49,7 @@ class User(Document):
     password_hash = StringField(required=True)
 
     # User role within the application
-    role = EnumField(choices=['patient', 'doctor', 'admin'], required=True)
+    role = EnumField(choices=["patient", "doctor", "admin"], required=True)
 
     # User profile details
     first_name = StringField(required=True, max_length=50)
@@ -64,7 +66,7 @@ class User(Document):
     two_factor_enabled = BooleanField(default=False)
 
     # OAuth integration (optional)
-    oauth_provider = EnumField(choices=['google', 'apple'], required=False)
+    oauth_provider = EnumField(choices=["google", "apple"], required=False)
     oauth_id = StringField(required=False)
 
     # Automatic timestamps
@@ -72,7 +74,7 @@ class User(Document):
     updated_at = DateTimeField(default=lambda: datetime.datetime.now(UTC))
 
     def clean(self):
-        """ Automatically updates the 'updated_at' timestamp on every save operation """
+        """Automatically updates the 'updated_at' timestamp on every save operation"""
         self.updated_at = datetime.datetime.now(UTC)
 
     def __str__(self):
