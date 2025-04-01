@@ -1,27 +1,27 @@
-# Python
+
 __pycache__/
 *.py[cod]
 *.egg-info/
 
-# Env & Pipenv
+
 .env
 venv/
-# Pipfile.lock
 
-# VSCode/PyCharm
+
+
 .vscode/
 .idea/
 
-# Docker
+
 *.log
 build/
 dist/
 *.sqlite3
 
-# Coverage / Testing
+
 .coverage
 htmlcov/
 pytest_cache/
 
-# OS
+
 .DS_Store
