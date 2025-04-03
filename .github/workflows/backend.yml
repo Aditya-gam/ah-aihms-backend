@@ -18,12 +18,10 @@ jobs:
           python-version: "3.11"
 
       - name: 💾 Cache Python Dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          path: |
-            ~/.cache/pip
-            .venv
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt', '**/dev-requirements.txt') }}
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt', 'dev-requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
@@ -31,9 +29,8 @@ jobs:
         run: |
           python -m venv .venv
           source .venv/bin/activate
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r dev-requirements.txt
+          pip install --upgrade pip
+          pip install -r requirements.txt -r dev-requirements.txt
 
       - name: 🧹 Run Linters (black, isort, ruff)
         run: |
@@ -41,13 +38,6 @@ jobs:
           black --check app
           isort --check-only app
           ruff check app
-
-      - name: 🎨 Check Black Formatting
-        run: |
-          source .venv/bin/activate
-          echo "🔍 Checking Black formatting..."
-          black --check app || (echo "❌ Black found formatting issues. Please run 'black app' locally and commit the changes." && exit 1)
-          
 
       - name: ✅ Run Tests (pytest with coverage)
         run: |
