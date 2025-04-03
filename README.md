@@ -1,31 +1,34 @@
 # 🧠 AH-AIHMS Backend
 
-The official backend for the **AI-Driven Healthcare Management System (AH-AIHMS)** — built with **Flask**, containerized using **Docker**, managed via **Pipenv**, and deployed through **GitHub Actions CI/CD**. This backend serves secure REST APIs for authentication, patient records, appointments, blockchain integrations, and AI-powered health analytics.
+**AI-Driven Healthcare Management System (AH-AIHMS)** backend built using **Flask**, containerized with **Docker**, managed via **venv**, tested rigorously, and seamlessly deployed using **GitHub Actions CI/CD** on **Render**. It provides secure REST APIs for user authentication, patient records, appointment scheduling, blockchain integrations, and AI-powered analytics, all backed by **MongoDB Atlas**.
 
-![CI/CD](https://github.com/Aditya-gam/ah-aihms-backend/actions/workflows/backend.yml/badge.svg)
-[![codecov](https://codecov.io/gh/Aditya-gam/ah-aihms-backend/branch/master/graph/badge.svg?token=CODECOV_TOKEN)](https://codecov.io/gh/Aditya-gam/ah-aihms-backend)
-
-
----
-
-## 📦 Tech Stack
-
-| Layer              | Technology                            |
-|-------------------|----------------------------------------|
-| Backend Framework  | Flask 3.0.x                            |
-| Language           | Python 3.11.x                          |
-| Virtual Env Tool   | Pipenv 2024.x                          |
-| Linting            | Flake8                                |
-| Formatting         | Black, isort                          |
-| Containerization   | Docker, Docker Compose                |
-| CI/CD              | GitHub Actions                        |
-| Deployment Target  | Compatible with Vercel frontend setup |
+[![CI/CD](https://github.com/Aditya-gam/ah-aihms-backend/actions/workflows/backend.yml/badge.svg)](https://github.com/Aditya-gam/ah-aihms-backend/actions/workflows/backend.yml)
+[![Codecov](https://codecov.io/gh/Aditya-gam/ah-aihms-backend/branch/master/graph/badge.svg?token=CODECOV_TOKEN)](https://codecov.io/gh/Aditya-gam/ah-aihms-backend)
 
 ---
 
-## 🗂️ Project Structure
+## 🚀 Tech Stack
 
-```
+| Layer                | Technology                                 |
+|----------------------|--------------------------------------------|
+| **Framework**        | Flask 3.0.2                                |
+| **Language**         | Python 3.11                                |
+| **Environment**      | venv + requirements.txt                    |
+| **Database**         | MongoDB Atlas                              |
+| **ODM**              | Flask-MongoEngine                          |
+| **Linting**          | Flake8, Ruff                               |
+| **Formatting**       | Black, isort                               |
+| **Testing**          | pytest, pytest-cov                         |
+| **CI/CD**            | GitHub Actions                             |
+| **Deployment**       | Render                                     |
+| **Containerization** | Docker, Docker Compose                     |
+| **Monitoring**       | Sentry                                     |
+
+---
+
+## 📂 Project Structure
+
+```bash
 ah-aihms-backend/
 ├── app/
 │   ├── __init__.py
@@ -43,8 +46,10 @@ ah-aihms-backend/
 ├── .gitignore
 ├── Dockerfile
 ├── docker-compose.yml
-├── Pipfile
-├── Pipfile.lock
+├── requirements.txt
+├── dev-requirements.txt
+├── pyproject.toml
+├── .pre-commit-config.yaml
 ├── README.md
 └── run.py
 ```
@@ -53,224 +58,216 @@ ah-aihms-backend/
 
 ## 🔧 Local Setup Instructions
 
-### 🛑 Prerequisites (Install Globally)
+### 🛑 Prerequisites
 
-> You only need to do this once per system:
+Install Python 3.11:
 
-#### 1. Install Python 3.11
 ```bash
 brew install python@3.11
 ```
 
-#### 2. Install Pipenv
-```bash
-brew install pipenv
-```
-
----
-
 ### ⚙️ Project Setup
 
-Clone the repo and navigate into it:
+Clone the repository and navigate inside:
 
 ```bash
 git clone https://github.com/Aditya-gam/ah-aihms-backend.git
 cd ah-aihms-backend
 ```
 
----
-
-### 1. Create Virtual Environment & Install Flask
+### 📦 Create Virtual Environment and Install Dependencies
 
 ```bash
-pipenv --python 3.11
-pipenv install flask==3.0.2
+python -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+pip install -r dev-requirements.txt
 ```
 
----
-
-### 2. Install Development Tools
+### 🚀 Run the Application Locally
 
 ```bash
-pipenv install --dev black flake8 isort
-```
-
----
-
-### 3. Lock Dependencies
-
-```bash
-pipenv lock
-```
-
----
-
-### 4. Run App (Locally)
-
-```bash
-pipenv run python run.py
+flask run
 ```
 
 Open browser at:  
-📍 `http://localhost:5000/api/auth/status`  
-Expected Output:
+📍 `http://localhost:5000/api/auth/status`
+
+Expected Response:
 ```json
 { "status": "auth route working" }
 ```
 
 ---
 
-## 🐳 Docker Setup (Optional)
+## 🐳 Docker & Docker Compose
 
-### 1. Build and Run
+### Build Docker Container
 
 ```bash
-docker-compose up --build
+docker-compose build
 ```
 
-App will be live at: `http://localhost:5000/api/auth/status`
+### Run Docker Container
+
+```bash
+docker-compose up
+```
+
+The app will be accessible at:  
+📍 `http://localhost:5001/api/auth/status`
 
 ---
 
 ## ✅ Linting & Formatting
 
-Run linting:
+### Run Lint Checks
 
 ```bash
-pipenv run lint
+black --check app
+isort --check-only app
+ruff check app
 ```
 
-Auto-format code:
+### Auto-format Code
 
 ```bash
-pipenv run format
+black app
+isort app
+ruff check --fix app
+```
+
+### Pre-commit Hooks Setup
+
+Install pre-commit hooks to auto-format before commits:
+
+```bash
+pre-commit install
+```
+
+---
+
+## 🧪 Testing & Coverage
+
+Run tests with coverage reports:
+
+```bash
+pytest tests/ --cov=app --cov-report=term-missing
 ```
 
 ---
 
 ## 🔁 CI/CD Pipeline (GitHub Actions)
 
-GitHub Actions is configured to:
+Configured for:
 
-- Run Flake8 linter
-- Run (placeholder) tests
-- Trigger on every push to `main`
+- Installing dependencies
+- Linting and formatting checks
+- Running unit tests with coverage
+- Auto-deployment on Render via webhook
 
-📄 File: `.github/workflows/backend.yml`
+📄 **`.github/workflows/backend.yml`**
 
-```yaml
-name: Backend CI/CD
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  backend:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.11
-
-      - name: Install Pipenv + Dependencies
-        run: |
-          python -m pip install pipenv
-          pipenv install --dev
-
-      - name: Lint Code
-        run: pipenv run lint
-
-      - name: Run Tests
-        run: echo "✅ Add pytest later"
-```
+[View backend.yml](https://github.com/Aditya-gam/ah-aihms-backend/blob/master/.github/workflows/backend.yml)
 
 ---
 
 ## 🌐 Frontend Integration
 
-Set in your frontend `.env.development`:
+Frontend URLs (managed in `.env`):
 
 ```env
-REACT_APP_API_BASE_URL=http://localhost:5000/api
-```
-
-### Example Axios Instance (Frontend)
-
-```js
-import axios from 'axios';
-
-const API = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
-});
-
-export default API;
+REACT_APP_API_BASE_URL=your-api-url # Production
+REACT_APP_API_BASE_URL=http://localhost:5001/api                  # Development
 ```
 
 ---
 
-## 📋 API Example (for Testing)
+## 📈 Logging & Monitoring (Sentry)
 
-- **Route:** `GET /api/auth/status`
-- **Description:** Health check for `auth` blueprint
-- **Response:**
+Sentry integrated for automatic error tracking and performance monitoring.
 
-```json
-{
-  "status": "auth route working"
-}
+To configure Sentry:
+
+- Sign up at [Sentry.io](https://sentry.io/)
+- Create a Flask project.
+- Replace `dsn` in `app/__init__.py`:
+
+```python
+sentry_sdk.init(
+    dsn="your_sentry_dsn_here",
+    integrations=[FlaskIntegration()],
+    traces_sample_rate=1.0,
+)
 ```
 
 ---
 
-## 🧪 Testing
+## 📋 Environment Variables
 
-> Add `pytest` setup in a later story
+Managed through `.env`:
 
-```bash
-mkdir tests/
-touch tests/test_auth.py
+```env
+SECRET_KEY=your_secure_key
+FLASK_ENV=production
+MONGODB_URI=your_mongodb_atlas_uri
 ```
 
 ---
 
 ## 🧾 Contribution Guidelines
 
-1. Fork the repository
-2. Create a new branch: `git checkout -b feature/feature-name`
-3. Commit your changes: `git commit -m "feat: Add feature"`
-4. Push to the branch: `git push origin feature/feature-name`
-5. Create a Pull Request
+1. Fork the repository.
+2. Create your feature branch:
+    ```bash
+    git checkout -b feature/your-feature-name
+    ```
+3. Commit your changes:
+    ```bash
+    git commit -m "feat: add your feature"
+    ```
+4. Push changes:
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+5. Open a Pull Request.
 
 ---
 
 ## 📄 License
 
-Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for full details.
+Distributed under the **MIT License**. [See LICENSE file](LICENSE).
 
 ---
 
 ## 📧 Contact
 
-**Aditya Gambhir**  
-📬 [agamb031@ucr.edu](mailto:agamb031@ucr.edu)
+- **Aditya Gambhir** - [agamb031@ucr.edu](mailto:agamb031@ucr.edu)  
+- **Ajit Singh** - [asing349@ucr.edu](mailto:asing349@ucr.edu)
 
-**Ajit Singh**  
-📬 [asing349@ucr.edu](mailto:asing349@ucr.edu)
-
-📦 Project Repo: [ah-aihms-backend](https://github.com/Aditya-gam/ah-aihms-backend)
+📦 [Project Repository](https://github.com/Aditya-gam/ah-aihms-backend)
 
 ---
 
-## 📚 References
+## 📚 References & Acknowledgements
 
-- [Flask Docs](https://flask.palletsprojects.com/)
-- [Pipenv Docs](https://pipenv.pypa.io/en/latest/)
-- [Docker Docs](https://docs.docker.com/)
-- [GitHub Actions Docs](https://docs.github.com/en/actions)
-- [Black Formatter](https://black.readthedocs.io/en/stable/)
-- [Flake8](https://flake8.pycqa.org/en/latest/)
+- [Flask Documentation](https://flask.palletsprojects.com/)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+- [Docker Documentation](https://docs.docker.com/)
+- [GitHub Actions](https://docs.github.com/actions)
+- [Black Formatter](https://black.readthedocs.io/)
+- [Flake8](https://flake8.pycqa.org/)
+- [Ruff](https://docs.astral.sh/ruff/)
+- [pytest](https://docs.pytest.org/)
+- [Sentry](https://docs.sentry.io/)
+- [Render](https://render.com/docs)
+- [Codecov](https://about.codecov.io/)
+
+---
+
+### 🎯 Next Steps & Future Improvements
+
+- Extend API functionality for blockchain integrations.
+- Enhance monitoring with Prometheus & Grafana.
+- Implement further security measures (rate-limiting, secure headers, etc.).
