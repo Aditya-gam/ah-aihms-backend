@@ -97,6 +97,7 @@ wtforms==3.2.1
     # via flask-wtf
 pre-commit==3.6.2 
 pytest-cov==4.1.0
+sentry-sdk==2.25.1
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
