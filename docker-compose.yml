@@ -5,5 +5,6 @@ services:
     ports:
       - "5001:5000"
     environment:
-      - FLASK_ENV=aihmsserver
-      - SECRET_KEY=supersecurekey
+      - FLASK_ENV={FLASK_ENV}
+      - SECRET_KEY=${SECRET_KEY}
+      - MONGODB_URI=${MONGODB_URI}
