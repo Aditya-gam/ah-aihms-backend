@@ -29,7 +29,7 @@ def db():
     # which is now the supported approach in modern MongoEngine.
     connect(
         db="testdb",
-        alias="testdb_alias",
+        alias="default",
         mongo_client_class=mongomock.MongoClient,
     )
 
