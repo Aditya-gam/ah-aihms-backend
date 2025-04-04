@@ -18,32 +18,30 @@ def app():
     return test_app
 
 
-@pytest.fixture(scope="session")
+# <-- Use function scope instead of session scope
+@pytest.fixture(scope="function")
 def db():
     """
-    Creates an in-memory MongoDB database using mongomock (new approach).
-    The database is disconnected after all tests complete.
+    Creates a brand-new in-memory MongoDB database using mongomock for each test.
+    This prevents duplicate key errors when creating the same user in multiple tests.
     """
-    # Instead of using host="mongomock://localhost",
-    # we specify the 'mongo_client_class=mongomock.MongoClient'
-    # which is now the supported approach in modern MongoEngine.
     connect(
         db="testdb",
-        alias="default",
+        alias="default",  # Use 'default' to match the models' default alias
         mongo_client_class=mongomock.MongoClient,
     )
 
-    yield  # Allow tests to run
+    yield  # Run the actual test
 
-    # Disconnect that specific alias after tests
-    disconnect(alias="testdb_alias")
+    # Disconnect so the next test starts from a blank DB
+    disconnect(alias="default")
 
 
 @pytest.fixture
 def client(app, db):
     """
     Provides a Flask test client for sending requests to the application.
-    Ensures each test runs in an isolated mongomock database context.
+    Uses the function-scoped in-memory DB. Each test is isolated.
     """
     with app.test_client() as test_client:
         yield test_client
