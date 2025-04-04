@@ -1,0 +1,36 @@
+import pytest
+from mongoengine import connect, disconnect
+
+from app import create_app
+
+
+@pytest.fixture(scope="session")
+def app():
+    """
+    Creates a Flask application instance for testing.
+    This fixture has a session scope, so it's created once per test session.
+    """
+    test_app = create_app()
+    test_app.config["TESTING"] = True
+    return test_app
+
+
+@pytest.fixture(scope="session")
+def db():
+    """
+    Creates an in-memory MongoDB database using mongomock.
+    The database is disconnected after all tests complete.
+    """
+    connect("testdb", host="mongomock://localhost", alias="testdb_alias")
+    yield
+    disconnect()
+
+
+@pytest.fixture
+def client(app, db):
+    """
+    Provides a Flask test client for sending requests to the application.
+    Ensures each test runs in an isolated mongomock database context.
+    """
+    with app.test_client() as test_client:
+        yield test_client
