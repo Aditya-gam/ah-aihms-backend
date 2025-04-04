@@ -3,8 +3,8 @@ from datetime import UTC, datetime
 import pytest
 from mongoengine import ValidationError
 
-from app.models.appointment import Appointment
-from app.models.user import EmergencyContact, User
+from app.models import Appointment, User
+from app.models.user import EmergencyContact
 
 
 @pytest.fixture

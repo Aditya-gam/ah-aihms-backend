@@ -1,8 +1,8 @@
 import pytest
 from mongoengine import NotUniqueError, ValidationError
 
-from app.models.medical_record import MedicalRecord
-from app.models.user import EmergencyContact, User
+from app.models import MedicalRecord, User
+from app.models.user import EmergencyContact
 
 
 @pytest.fixture

@@ -1,7 +1,8 @@
 import pytest
 from mongoengine import NotUniqueError, ValidationError
 
-from app.models.user import EmergencyContact, User
+from app.models import User
+from app.models.user import EmergencyContact
 
 
 def test_create_valid_user(db):

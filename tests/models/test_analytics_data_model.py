@@ -1,8 +1,8 @@
 import pytest
 from mongoengine import ValidationError
 
-from app.models.analytics_data import AnalyticsData
-from app.models.user import EmergencyContact, User
+from app.models import AnalyticsData, User
+from app.models.user import EmergencyContact
 
 
 @pytest.fixture
