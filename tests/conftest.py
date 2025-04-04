@@ -33,6 +33,7 @@ def db():
         db="testdb",
         alias="default",
         mongo_client_class=mongomock.MongoClient,
+        uuidRepresentation="standard",  # Fix the DeprecationWarning
     )
 
     yield  # Run the test
