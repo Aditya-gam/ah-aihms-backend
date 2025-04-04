@@ -8,15 +8,16 @@ exclude = '''
   | migrations
 )/
 '''
+extend-exclude = "app/models/__init__.py"
 
 [tool.isort]
 profile = "black"
 line_length = 100
-skip = [".venv", "migrations", "__pycache__"]
+skip = [".venv", "migrations", "__pycache__", "app/models/__init__.py"]
 
 [tool.ruff]
 line-length = 100
-exclude = [".venv", "migrations", "__pycache__"]
+exclude = [".venv", "migrations", "__pycache__", "app/models/__init__.py"]
 target-version = "py311"
 fix = true
 show-fixes = true

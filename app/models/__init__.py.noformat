@@ -1,0 +1,2 @@
+# This file indicates that app/models/__init__.py should not be formatted
+# The order of imports in __init__.py is intentional and should be preserved 
