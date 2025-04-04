@@ -1,0 +1,7 @@
+[run]
+# Instrument only our 'app' folder
+source = app
+
+[report]
+# Show missing lines in output
+show_missing = True
