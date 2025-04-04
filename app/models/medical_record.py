@@ -33,7 +33,7 @@ class MedicalRecord(db.Document):
     uploaded_by = db.ReferenceField(
         "User",
         required=True,
-        reverse_delete_rule=db.SET_NULL,
+        reverse_delete_rule=db.NULLIFY,
         help_text="Reference to the doctor or medical personnel who uploaded the record.",
     )
 

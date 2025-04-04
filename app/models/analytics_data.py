@@ -27,14 +27,15 @@ class AnalyticsData(db.Document):
     )
 
     # Detailed nested metrics capturing patient health data (e.g., vital signs)
+    # We keep required=True here so empty dict triggers "The 'metrics' field cannot be empty."
     metrics = db.DictField(
         required=True,
         help_text="Nested dictionary containing health metrics",
     )
 
     # Results from AI predictive models assessing risk factors or health conditions
+    # CHANGED: removed required=True to let custom logic handle empty dict
     prediction_results = db.DictField(
-        required=True,
         help_text="Nested dictionary with predictive analytics results",
     )
 
@@ -75,11 +76,14 @@ class AnalyticsData(db.Document):
         Validates the integrity and structure of analytics data before saving.
         Ensures that required health metrics and predictions are properly structured.
         """
+        # (1) Check that metrics is not empty (your existing domain logic).
         if not self.metrics:
             raise db.ValidationError("The 'metrics' field cannot be empty.")
 
+        # (2) If no prediction_results field or it's empty, raise domain error
+        # Instead of the default field-level message, we rely on custom logic:
         if not self.prediction_results:
-            raise db.ValidationError("The 'prediction_results' field cannot be empty.")
+            raise db.ValidationError("At least one predictive result must be provided.")
 
         # Example validation ensuring metrics include standard expected entries
         required_metric_keys = {"heart_rate", "blood_pressure", "glucose_level"}
@@ -88,7 +92,3 @@ class AnalyticsData(db.Document):
             raise db.ValidationError(
                 f"Missing essential health metrics: {', '.join(missing_metrics)}"
             )
-
-        # Example validation ensuring predictions contain at least one risk assessment
-        if len(self.prediction_results.keys()) == 0:
-            raise db.ValidationError("At least one predictive result must be provided.")

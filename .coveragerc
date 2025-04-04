@@ -1,0 +1,10 @@
+[run]
+# Instrument only our 'app' folder
+source = app
+# If needed:
+# include = app/*
+# relative_files = True
+
+[report]
+# Show missing lines in output
+show_missing = True
