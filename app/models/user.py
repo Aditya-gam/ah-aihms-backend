@@ -8,7 +8,6 @@ from mongoengine import (
     EmailField,
     EmbeddedDocument,
     EmbeddedDocumentField,
-    EnumField,
     StringField,
 )
 
@@ -47,7 +46,7 @@ class User(Document):
     password_hash = StringField(required=True)
 
     # User role within the application
-    role = EnumField(choices=["patient", "doctor", "admin"], required=True)
+    role = StringField(choices=["patient", "doctor", "admin"], required=True)
 
     # User profile details
     first_name = StringField(required=True, max_length=50)
@@ -64,7 +63,7 @@ class User(Document):
     two_factor_enabled = BooleanField(default=False)
 
     # OAuth integration (optional)
-    oauth_provider = EnumField(choices=["google", "apple"], required=False)
+    oauth_provider = StringField(choices=["google", "apple"], required=False)
     oauth_id = StringField(required=False)
 
     # Automatic timestamps
