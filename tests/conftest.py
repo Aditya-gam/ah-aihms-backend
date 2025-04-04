@@ -1,3 +1,6 @@
+# tests/conftest.py
+
+import mongomock
 import pytest
 from mongoengine import connect, disconnect
 
@@ -18,12 +21,22 @@ def app():
 @pytest.fixture(scope="session")
 def db():
     """
-    Creates an in-memory MongoDB database using mongomock.
+    Creates an in-memory MongoDB database using mongomock (new approach).
     The database is disconnected after all tests complete.
     """
-    connect("testdb", host="mongomock://localhost", alias="testdb_alias")
-    yield
-    disconnect()
+    # Instead of using host="mongomock://localhost",
+    # we specify the 'mongo_client_class=mongomock.MongoClient'
+    # which is now the supported approach in modern MongoEngine.
+    connect(
+        db="testdb",
+        alias="testdb_alias",
+        mongo_client_class=mongomock.MongoClient,
+    )
+
+    yield  # Allow tests to run
+
+    # Disconnect that specific alias after tests
+    disconnect(alias="testdb_alias")
 
 
 @pytest.fixture
