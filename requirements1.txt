@@ -6,6 +6,7 @@ build==1.2.2.post1
 certifi==2025.1.31
 cffi==1.17.1
 cfgv==3.4.0
+charset-normalizer==3.4.1
 click==8.1.8
 coverage==7.8.0
 cryptography==44.0.2
@@ -20,6 +21,7 @@ flask-mongoengine @ git+https://github.com/closeio/flask-mongoengine.git@513391a
 Flask-WTF==1.2.2
 gunicorn==23.0.0
 identify==2.6.9
+idna==3.10
 iniconfig==2.1.0
 isort==5.12.0
 itsdangerous==2.2.0
@@ -47,6 +49,7 @@ pytest-cov==4.1.0
 python-dotenv==1.1.0
 pytz==2025.2
 PyYAML==6.0.2
+requests==2.32.3
 ruff==0.3.0
 sentinels==1.0.0
 sentry-sdk==2.25.1

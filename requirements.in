@@ -1,8 +1,31 @@
-# requirements.in
+# -------------------
+# Core Dependencies
+# -------------------
 
 flask==3.0.2
 flask-mongoengine @ git+https://github.com/closeio/flask-mongoengine.git@513391afd1e9c71ffcf2cfed84d1441a830ae708
 mongoengine==0.29.1
-python-dotenv==1.1.0
+pymongo==4.11.3
 dnspython==2.7.0
+python-dotenv==1.1.0
 gunicorn==23.0.0
+
+# ------------------------
+# Authentication & Security
+# ------------------------
+
+Flask-JWT-Extended==4.7.1
+Flask-Mail==0.10.0
+bcrypt==4.3.0
+Authlib==1.5.2
+PyJWT==2.10.1
+
+# -------------------
+# Observability
+# -------------------
+
+sentry-sdk==2.25.1
+
+# -------------------
+# Leave room here for more future prod dependencies
+# -------------------
