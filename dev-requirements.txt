@@ -99,6 +99,11 @@ pre-commit==3.6.2
 pytest-cov==4.1.0
 sentry-sdk==2.25.1
 mongomock==4.3.0
+Flask-JWT-Extended==4.7.1
+Flask-Mail==0.10.0
+PyJWT==2.10.1
+Authlib==1.5.2
+bcrypt==4.3.0
 # The following packages are considered to be unsafe in a requirements file:
 # pip
 # setuptools
