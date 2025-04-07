@@ -9,6 +9,7 @@ class Config:
         "host": os.getenv("MONGODB_URI"),
         "db": "ah-aihms-db",
         "tls": True,
+        "uuidRepresentation": "standard",  # ✅ resolves deprecation warning
     }
     # JWT Configuration
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "jwt-secret-key")
