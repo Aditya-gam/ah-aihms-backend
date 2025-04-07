@@ -29,3 +29,5 @@ sentry-sdk==2.25.1
 # -------------------
 # Leave room here for more future prod dependencies
 # -------------------
+
+requests==2.32.3
