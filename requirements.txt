@@ -12,8 +12,11 @@ blinker==1.9.0
     # via
     #   flask
     #   flask-mail
+brotli==1.1.0
+    # via geventhttpclient
 certifi==2025.1.31
     # via
+    #   geventhttpclient
     #   requests
     #   sentry-sdk
 cffi==1.17.1
@@ -22,6 +25,8 @@ charset-normalizer==3.4.1
     # via requests
 click==8.1.8
     # via flask
+configargparse==1.7
+    # via locust
 cryptography==44.0.2
     # via authlib
 dnspython==2.7.0
@@ -31,18 +36,33 @@ dnspython==2.7.0
 flask==3.0.2
     # via
     #   -r requirements.in
+    #   flask-cors
     #   flask-jwt-extended
+    #   flask-login
     #   flask-mail
     #   flask-mongoengine
     #   flask-wtf
+    #   locust
+flask-cors==5.0.1
+    # via locust
 flask-jwt-extended==4.7.1
     # via -r requirements.in
+flask-login==0.6.3
+    # via locust
 flask-mail==0.10.0
     # via -r requirements.in
 flask-mongoengine @ git+https://github.com/closeio/flask-mongoengine.git@513391afd1e9c71ffcf2cfed84d1441a830ae708
     # via -r requirements.in
 flask-wtf==1.2.2
     # via flask-mongoengine
+gevent==24.11.1
+    # via
+    #   geventhttpclient
+    #   locust
+geventhttpclient==2.3.3
+    # via locust
+greenlet==3.1.1
+    # via gevent
 gunicorn==23.0.0
     # via -r requirements.in
 idna==3.10
@@ -53,6 +73,8 @@ itsdangerous==2.2.0
     #   flask-wtf
 jinja2==3.1.6
     # via flask
+locust==2.34.0
+    # via -r requirements.in
 markupsafe==3.0.2
     # via
     #   jinja2
@@ -62,8 +84,12 @@ mongoengine==0.29.1
     # via
     #   -r requirements.in
     #   flask-mongoengine
+msgpack==1.1.0
+    # via locust
 packaging==24.2
     # via gunicorn
+psutil==7.0.0
+    # via locust
 pycparser==2.22
     # via cffi
 pyjwt==2.10.1
@@ -77,19 +103,34 @@ pymongo==4.11.3
     #   mongoengine
 python-dotenv==1.1.0
     # via -r requirements.in
+pyzmq==26.4.0
+    # via locust
 requests==2.32.3
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   locust
 sentry-sdk==2.25.1
     # via -r requirements.in
 six==1.17.0
     # via flask-mongoengine
 urllib3==2.3.0
     # via
+    #   geventhttpclient
     #   requests
     #   sentry-sdk
 werkzeug==3.1.3
     # via
     #   flask
+    #   flask-cors
     #   flask-jwt-extended
+    #   flask-login
+    #   locust
 wtforms==3.2.1
     # via flask-wtf
+zope-event==5.0
+    # via gevent
+zope-interface==7.2
+    # via gevent
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools

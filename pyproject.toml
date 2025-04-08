@@ -25,3 +25,6 @@ show-fixes = true
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 ignore = []
+
+[tool.coverage.report]
+fail_under = 60

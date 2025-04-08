@@ -1,5 +1,6 @@
 # Dev-only tools for formatting, linting, testing, type checking
 
+setuptools==78.1.0
 -r requirements.in
 
 # -------------------
@@ -31,3 +32,4 @@ build==1.2.2.post1
 # -------------------
 # Leave room here for more future dev-only tools
 # -------------------
+locust==2.34.0
