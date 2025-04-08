@@ -129,7 +129,7 @@ def test_login_and_2fa_flow(client, db, monkeypatch):
     First, attempt login and expect a 2FA instruction; then verify the 2FA OTP.
     """
     # Create two-factor enabled, verified user fixture
-    user = two_factor_user  # ✅ Use injected fixture
+    user = two_factor_user(db)  # ✅ Use injected fixture
 
     # Patch send_email to capture OTP for 2FA
     captured_otp = {}
