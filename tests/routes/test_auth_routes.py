@@ -129,28 +129,28 @@ def test_login_and_2fa_flow(client, db, monkeypatch):
     First, attempt login and expect a 2FA instruction; then verify the 2FA OTP.
     """
     # Create two-factor enabled, verified user fixture
-    user = two_factor_user(db)
+    user = two_factor_user  # ✅ Use injected fixture
 
     # Patch send_email to capture OTP for 2FA
     captured_otp = {}
 
     def fake_send_email(subject, recipients, body):
         # Extract OTP code from the body
+        import re
+
         match = re.search(r"(\d{6})", body)
         if match:
             captured_otp["otp"] = match.group(1)
 
     monkeypatch.setattr("app.routes.auth.send_email", fake_send_email)
 
-    # Attempt login; since 2FA is enabled, expect a message about OTP sent.
+    # Simulate login (expecting 2FA challenge)
     login_payload = {"email": user.email, "password": "any_password"}
-    # Note: The password verification here is dummy—if you are hashing actual passwords,
-    # ensure the fixture is created with a proper bcrypt hash.
     response = client.post("/api/auth/login", json=login_payload)
     assert response.status_code == 200
     assert "2FA code sent" in response.json["msg"]
 
-    # Now, simulate verifying the OTP.
+    # Simulate 2FA verification with captured OTP
     otp = captured_otp.get("otp")
     assert otp is not None, "OTP not captured from send_email"
 
@@ -160,7 +160,7 @@ def test_login_and_2fa_flow(client, db, monkeypatch):
     assert "access_token" in verify_response.json
     assert "refresh_token" in verify_response.json
 
-    # Negative test: provide wrong OTP
+    # Negative test: Wrong OTP
     wrong_payload = {"email": user.email, "otp": "000000"}
     wrong_response = client.post("/api/auth/verify-2fa", json=wrong_payload)
     assert wrong_response.status_code == 400
