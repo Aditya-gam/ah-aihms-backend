@@ -8,6 +8,7 @@ from flask_mongoengine import MongoEngine
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 from .config import Config
+from .extensions import init_extensions  # import db and init_extensions
 
 # Initialize MongoEngine for database interactions
 db = MongoEngine()
@@ -50,25 +51,8 @@ def create_app():
         traces_sample_rate=1.0,
     )
 
-    # Import and initialize third-party extensions
-    from .extensions import jwt, mail, oauth
-
-    jwt.init_app(app)
-    mail.init_app(app)
-    oauth.init_app(app)
-
-    # Configure Google OAuth if credentials are provided in the environment
-    if app.config.get("GOOGLE_CLIENT_ID") and app.config.get("GOOGLE_CLIENT_SECRET"):
-        oauth.register(
-            name="google",
-            client_id=app.config["GOOGLE_CLIENT_ID"],
-            client_secret=app.config["GOOGLE_CLIENT_SECRET"],
-            access_token_url="https://accounts.google.com/o/oauth2/token",
-            authorize_url="https://accounts.google.com/o/oauth2/auth",
-            api_base_url="https://www.googleapis.com/oauth2/v1/",
-            userinfo_endpoint="https://www.googleapis.com/oauth2/v1/userinfo",
-            client_kwargs={"scope": "openid email profile"},
-        )
+    # ✅ Initialize all extensions, including OAuth
+    init_extensions(app)
 
     # Register application blueprints (e.g., auth routes)
     from .routes.auth import auth_bp

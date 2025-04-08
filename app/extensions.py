@@ -31,15 +31,24 @@ oauth = OAuth()
 
 
 def init_extensions(app):
-    """Initialize extensions with the Flask app and configure OAuth providers."""
+    """
+    Initialize Flask extensions and configure Google OAuth client.
+    """
     jwt.init_app(app)
     mail.init_app(app)
     oauth.init_app(app)
-    # Register Google OAuth client using OpenID Connect discovery
-    oauth.register(
-        name="google",
-        client_id=os.environ.get("GOOGLE_CLIENT_ID"),
-        client_secret=os.environ.get("GOOGLE_CLIENT_SECRET"),
-        server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
-        client_kwargs={"scope": "openid email profile"},
-    )
+
+    client_id = os.environ.get("GOOGLE_CLIENT_ID")
+    client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
+
+    if client_id and client_secret:
+        oauth.register(
+            name="google",
+            client_id=client_id,
+            client_secret=client_secret,
+            server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
+            client_kwargs={"scope": "openid email profile"},
+        )
+        app.logger.info("✅ Google OAuth client registered.")
+    else:
+        app.logger.warning("⚠️ Google OAuth credentials not set. Skipping OAuth registration.")

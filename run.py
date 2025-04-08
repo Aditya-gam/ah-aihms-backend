@@ -1,6 +1,11 @@
 import logging
 
+from dotenv import load_dotenv  # ✅ Add this
+
 from app import create_app
+
+load_dotenv()  # ✅ Load .env before create_app()
+
 
 logger = logging.getLogger(__name__)
 
