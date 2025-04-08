@@ -248,14 +248,30 @@ def test_password_reset_flow(client, db, monkeypatch, verified_user):
     # you may need to adjust to your specific logic.
 
 
-def test_oauth_google_login_flow(client, db, monkeypatch):
+def test_oauth_google_login_flow(client, db, monkeypatch, app):
     """
     Test the Google OAuth login flow using mocks.
     This test patches the OAuth client methods to simulate successful login and token exchange.
     """
-    from app.extensions import oauth  # ✅ Import from extensions module
 
-    # Prepare fake tokens and user info
+    # ✅ Inject dummy Google OAuth credentials
+    monkeypatch.setenv("GOOGLE_CLIENT_ID", "dummy-client-id")
+    monkeypatch.setenv("GOOGLE_CLIENT_SECRET", "dummy-client-secret")
+
+    # Import after setting env so client gets registered
+    from app.extensions import oauth
+
+    # Ensure Google client is registered
+    if not hasattr(oauth, "google"):
+        oauth.register(
+            name="google",
+            client_id="dummy-client-id",
+            client_secret="dummy-client-secret",
+            server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
+            client_kwargs={"scope": "openid email profile"},
+        )
+
+    # ✅ Prepare fake tokens and user info
     fake_user_info = {
         "email": "oauthuser@example.com",
         "given_name": "OAuth",
@@ -263,7 +279,7 @@ def test_oauth_google_login_flow(client, db, monkeypatch):
         "sub": "google_unique_id_123",
     }
 
-    # Patch the authorize_access_token and parse_id_token methods of the OAuth client
+    # ✅ Patch the authorize_access_token and parse_id_token methods
     def fake_authorize_access_token():
         return {"access_token": "fake_access_token"}
 
@@ -274,17 +290,17 @@ def test_oauth_google_login_flow(client, db, monkeypatch):
     monkeypatch.setattr(oauth.google, "authorize_access_token", fake_authorize_access_token)
     monkeypatch.setattr(oauth.google, "parse_id_token", fake_parse_id_token)
 
-    # Call the OAuth callback endpoint (simulate GET request)
+    # ✅ Simulate GET request to OAuth callback
     response = client.get("/api/auth/oauth/google/callback")
     assert response.status_code == 200
     json_data = response.get_json()
     assert "access_token" in json_data
     assert "refresh_token" in json_data
 
-    # Verify that a new user has been created with the expected email.
+    # ✅ Confirm new user was created correctly
     user = User.objects(email="oauthuser@example.com").first()
     assert user is not None
-    assert user.verified is True  # OAuth users are auto-verified
+    assert user.verified is True
 
 
 # --- Negative Case Tests ---
