@@ -177,23 +177,30 @@ def test_login_and_2fa_flow(client, db, monkeypatch, two_factor_user):
     assert "refresh_token" in verify_response.json
 
 
-def test_token_refresh_flow(client, db):
+def test_token_refresh_flow(client, db, verified_user):
     """
-    Test the token refresh endpoint.
-    First, login to obtain tokens, then use the refresh token to get a new access token.
+    Test the token refresh endpoint using a verified user.
+
+    Steps:
+    1. Use the verified_user fixture injected by pytest.
+    2. Generate a valid JWT refresh token using the user's ID and role.
+    3. Call /api/auth/token/refresh with the refresh token in Authorization header.
+    4. Assert that a new access token is returned.
     """
-    # Create a verified user fixture
-    user = verified_user(db)
+    user = verified_user  # ✅ Injected fixture (do not call it)
 
-    # Create tokens directly using the app's endpoints or by simulating login.
-    # For simplicity, we generate tokens using the flask_jwt_extended functions.
-
+    # Generate a JWT refresh token with appropriate claims
     additional_claims = {"role": user.role}
-    refresh_token = create_refresh_token(identity=str(user.id), additional_claims=additional_claims)
+    refresh_token = create_refresh_token(
+        identity=str(user.id),
+        additional_claims=additional_claims,
+    )
 
-    # Use the refresh token to get a new access token
+    # Hit the token refresh endpoint
     headers = {"Authorization": f"Bearer {refresh_token}"}
     response = client.post("/api/auth/token/refresh", headers=headers)
+
+    # Assert token refresh response
     assert response.status_code == 200
     assert "access_token" in response.json
 
