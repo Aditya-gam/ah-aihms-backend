@@ -14,8 +14,10 @@ Dependencies:
   - The Flask test client provided by conftest.py
 """
 
+import os
 import re
 
+import bcrypt
 import pytest
 from flask_jwt_extended import create_refresh_token
 
@@ -25,16 +27,21 @@ from app.models.user import EmergencyContact
 
 # --- Helper Fixtures ---
 
+TEST_PASSWORD = os.getenv("TEST_PASSWORD", "test_password_123!@#")
+
 
 @pytest.fixture
 def verified_user(db):
     """
     Fixture to create and return a verified user.
     """
+    password_bytes = TEST_PASSWORD.encode("utf-8")
+    hashed = bcrypt.hashpw(password_bytes, bcrypt.gensalt()).decode("utf-8")
+
     user = User(
         email="verified@example.com",
         # In tests, this can be a dummy hash; if needed, use bcrypt.hashpw(...)
-        password_hash="hashed_password",
+        password_hash=hashed,
         role="patient",
         first_name="Verified",
         last_name="User",
@@ -54,9 +61,12 @@ def two_factor_user(db):
     """
     Fixture to create a verified user with two-factor enabled.
     """
+    password_bytes = TEST_PASSWORD.encode("utf-8")
+    hashed = bcrypt.hashpw(password_bytes, bcrypt.gensalt()).decode("utf-8")
+
     user = User(
         email="2fa_user@example.com",
-        password_hash="hashed_2fa_password",
+        password_hash=hashed,
         role="patient",
         first_name="TwoFactor",
         last_name="User",
@@ -144,7 +154,7 @@ def test_login_and_2fa_flow(client, db, monkeypatch, two_factor_user):
     monkeypatch.setattr("app.routes.auth.send_email", fake_send_email)
 
     # ✅ Trigger login - expect 2FA OTP
-    login_payload = {"email": user.email, "password": "any_password"}
+    login_payload = {"email": user.email, "password": TEST_PASSWORD}
     response = client.post("/api/auth/login", json=login_payload)
     assert response.status_code == 200
     assert "2FA code sent" in response.json["msg"]
