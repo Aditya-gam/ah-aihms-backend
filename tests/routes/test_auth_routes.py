@@ -159,6 +159,12 @@ def test_login_and_2fa_flow(client, db, monkeypatch, two_factor_user):
     assert response.status_code == 200
     assert "2FA code sent" in response.json["msg"]
 
+    # ✅ Negative case: incorrect OTP
+    wrong_payload = {"email": user.email, "otp": "000000"}
+    wrong_response = client.post("/api/auth/verify-2fa", json=wrong_payload)
+    assert wrong_response.status_code == 400
+    assert "Invalid OTP" in wrong_response.json["msg"]
+
     # ✅ Grab OTP from mocked email
     otp = captured_otp.get("otp")
     assert otp is not None, "OTP not captured from email"
@@ -169,12 +175,6 @@ def test_login_and_2fa_flow(client, db, monkeypatch, two_factor_user):
     assert verify_response.status_code == 200
     assert "access_token" in verify_response.json
     assert "refresh_token" in verify_response.json
-
-    # ✅ Negative case: incorrect OTP
-    wrong_payload = {"email": user.email, "otp": "000000"}
-    wrong_response = client.post("/api/auth/verify-2fa", json=wrong_payload)
-    assert wrong_response.status_code == 400
-    assert "Invalid OTP" in wrong_response.json["msg"]
 
 
 def test_token_refresh_flow(client, db):
