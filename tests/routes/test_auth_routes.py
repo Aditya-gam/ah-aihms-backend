@@ -206,7 +206,7 @@ def test_token_refresh_flow(app, client, db, verified_user):
     assert "access_token" in response.json
 
 
-def test_password_reset_flow(client, db, monkeypatch):
+def test_password_reset_flow(client, db, monkeypatch, verified_user):
     """
     Test the complete flow for password reset:
       - Request a password reset (captures the reset link/token)
@@ -214,7 +214,7 @@ def test_password_reset_flow(client, db, monkeypatch):
       - Verify that login succeeds with the new password.
     """
     # Create a verified user fixture
-    user = verified_user(db)
+    user = verified_user
 
     captured_reset = {}
 
@@ -270,9 +270,9 @@ def test_oauth_google_login_flow(client, db, monkeypatch):
         return fake_user_info
 
     monkeypatch.setattr(
-        "app.routes.auth.oauth.google.authorize_access_token", fake_authorize_access_token
+        "app.extensions.oauth.google.authorize_access_token", fake_authorize_access_token
     )
-    monkeypatch.setattr("app.routes.auth.oauth.google.parse_id_token", fake_parse_id_token)
+    monkeypatch.setattr("app.extensions.oauth.google.parse_id_token", fake_parse_id_token)
 
     # Call the OAuth callback endpoint (simulate GET request)
     response = client.get("/api/auth/oauth/google/callback")
