@@ -253,6 +253,8 @@ def test_oauth_google_login_flow(client, db, monkeypatch):
     Test the Google OAuth login flow using mocks.
     This test patches the OAuth client methods to simulate successful login and token exchange.
     """
+    from app.extensions import oauth  # ✅ Import from extensions module
+
     # Prepare fake tokens and user info
     fake_user_info = {
         "email": "oauthuser@example.com",
@@ -269,10 +271,8 @@ def test_oauth_google_login_flow(client, db, monkeypatch):
         assert token == {"access_token": "fake_access_token"}
         return fake_user_info
 
-    monkeypatch.setattr(
-        "app.extensions.oauth.google.authorize_access_token", fake_authorize_access_token
-    )
-    monkeypatch.setattr("app.extensions.oauth.google.parse_id_token", fake_parse_id_token)
+    monkeypatch.setattr(oauth.google, "authorize_access_token", fake_authorize_access_token)
+    monkeypatch.setattr(oauth.google, "parse_id_token", fake_parse_id_token)
 
     # Call the OAuth callback endpoint (simulate GET request)
     response = client.get("/api/auth/oauth/google/callback")
