@@ -8,7 +8,7 @@ Indexes:
 - Index on patient_id for efficient retrieval of patient-specific analytics data.
 """
 
-from datetime import datetime
+from datetime import UTC, datetime
 
 from app import db
 
@@ -47,7 +47,7 @@ class AnalyticsData(db.Document):
 
     # Timestamp marking when this analytics data was generated
     generated_at = db.DateTimeField(
-        default=datetime.utcnow,
+        default=lambda: datetime.now(UTC),
         help_text="Timestamp indicating when the analytics data was generated.",
     )
 
