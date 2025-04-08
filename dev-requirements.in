@@ -33,3 +33,4 @@ build==1.2.2.post1
 # Leave room here for more future dev-only tools
 # -------------------
 locust==2.34.0
+faker==37.1.0

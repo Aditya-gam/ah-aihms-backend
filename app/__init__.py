@@ -39,6 +39,7 @@ def create_app():
     """
     app = Flask(__name__)
     app.config.from_object(Config)
+    assert app.config["MONGODB_SETTINGS"]["host"], "❌ MONGODB_URI is missing or not loaded!"
 
     # Initialize MongoEngine with the Flask app
     db.init_app(app)

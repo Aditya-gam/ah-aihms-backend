@@ -33,6 +33,8 @@ dnspython==2.7.0
     # via
     #   -r requirements.in
     #   pymongo
+faker==37.1.0
+    # via -r requirements.in
 flask==3.0.2
     # via
     #   -r requirements.in
@@ -113,6 +115,8 @@ sentry-sdk==2.25.1
     # via -r requirements.in
 six==1.17.0
     # via flask-mongoengine
+tzdata==2025.2
+    # via faker
 urllib3==2.3.0
     # via
     #   geventhttpclient

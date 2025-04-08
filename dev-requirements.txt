@@ -48,6 +48,10 @@ dnspython==2.7.0
     # via
     #   -r /Volumes/Coding/Projects/AiHMS/ah-aihms-backend/requirements.in
     #   pymongo
+faker==37.1.0
+    # via
+    #   -r /Volumes/Coding/Projects/AiHMS/ah-aihms-backend/requirements.in
+    #   -r dev-requirements.in
 filelock==3.18.0
     # via virtualenv
 flake8==7.0.0
@@ -187,6 +191,8 @@ sentry-sdk==2.25.1
     # via -r /Volumes/Coding/Projects/AiHMS/ah-aihms-backend/requirements.in
 six==1.17.0
     # via flask-mongoengine
+tzdata==2025.2
+    # via faker
 urllib3==2.3.0
     # via
     #   geventhttpclient

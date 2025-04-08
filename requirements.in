@@ -32,3 +32,4 @@ sentry-sdk==2.25.1
 
 requests==2.32.3
 locust==2.34.0
+faker==37.1.0
