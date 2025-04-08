@@ -310,9 +310,16 @@ def test_login_with_unverified_account(client, db):
     """
     Test that login is rejected if the user's email is not verified.
     """
+    import bcrypt
+
+    from tests.routes.test_auth_routes import TEST_PASSWORD
+
+    password = TEST_PASSWORD
+    hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
     user = User(
         email="unverified@example.com",
-        password_hash="dummy",  # dummy hash; adjust if using proper bcrypt hashing
+        password_hash=hashed,
         role="patient",
         first_name="Unverified",
         last_name="User",
@@ -322,8 +329,10 @@ def test_login_with_unverified_account(client, db):
         verified=False,
     )
     user.save()
+
+    # ✅ Actual login call with real hashed password
     response = client.post(
-        "/api/auth/login", json={"email": "unverified@example.com", "password": "dummy"}
+        "/api/auth/login", json={"email": "unverified@example.com", "password": password}
     )
     assert response.status_code == 403
     assert "Email not verified" in response.get_json()["msg"]
