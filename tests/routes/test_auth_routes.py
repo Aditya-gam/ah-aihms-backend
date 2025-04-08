@@ -177,7 +177,7 @@ def test_login_and_2fa_flow(client, db, monkeypatch, two_factor_user):
     assert "refresh_token" in verify_response.json
 
 
-def test_token_refresh_flow(client, db, verified_user):
+def test_token_refresh_flow(app, client, db, verified_user):
     """
     Test the token refresh endpoint using a verified user.
 
@@ -189,18 +189,19 @@ def test_token_refresh_flow(client, db, verified_user):
     """
     user = verified_user  # ✅ Injected fixture (do not call it)
 
-    # Generate a JWT refresh token with appropriate claims
-    additional_claims = {"role": user.role}
-    refresh_token = create_refresh_token(
-        identity=str(user.id),
-        additional_claims=additional_claims,
-    )
+    # ✅ Wrap JWT creation inside app context
+    with app.app_context():
+        additional_claims = {"role": user.role}
+        refresh_token = create_refresh_token(
+            identity=str(user.id),
+            additional_claims=additional_claims,
+        )
 
-    # Hit the token refresh endpoint
+    # ✅ Hit the token refresh endpoint
     headers = {"Authorization": f"Bearer {refresh_token}"}
     response = client.post("/api/auth/token/refresh", headers=headers)
 
-    # Assert token refresh response
+    # ✅ Assert token refresh response
     assert response.status_code == 200
     assert "access_token" in response.json
 
