@@ -10,16 +10,19 @@ from pathlib import Path
 OUTPUT_DIR = Path("scripts/merged_sources")
 OUTPUT_FILE = OUTPUT_DIR / "config_files_merged.txt"
 CONFIG_FILES = [
+    ".github/workflows/backend.yml",
+    ".coveragerc",
+    ".env",
+    ".flaskenv",
+    ".gitignore",
+    "isort.cfg",
+    ".pre-commit-config.yaml",
+    "dev-requirements.txt",
+    "docker-compose.yml",
+    "Dockerfile",
     "pyproject.toml",
     "requirements.txt",
-    "dev-requirements.txt",
-    ".pre-commit-config.yaml",
-    ".env.example",
-    ".env",
-    "Dockerfile",
-    "docker-compose.yml",
-    ".flake8",
-    ".github/workflows/backend.yml",
+    "run.py",
 ]
 
 
@@ -32,9 +35,9 @@ def merge_config_files():
             path = Path(file)
             if not path.exists():
                 continue
-            outfile.write(f"\n\n{'-' * 80}\n")
+            outfile.write(f"\n{'-' * 80}\n")
             outfile.write(f"# This is the {file}:\n")
-            outfile.write(f"{'-' * 80}\n\n")
+            # outfile.write(f"{'-' * 80}\n")
             with open(path, "r", encoding="utf-8") as infile:
                 outfile.write(infile.read().rstrip() + "\n")
 

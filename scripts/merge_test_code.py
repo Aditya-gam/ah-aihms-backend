@@ -27,9 +27,9 @@ def merge_test_files():
                 rel_path = filepath.relative_to(Path.cwd())
             except ValueError:
                 rel_path = str(filepath)
-            outfile.write(f"\n\n{'-' * 80}\n")
+            outfile.write(f"\n{'-' * 80}\n")
             outfile.write(f"# This is the {rel_path}:\n")
-            outfile.write(f"{'-' * 80}\n\n")
+            # outfile.write(f"{'-' * 80}\n")
             with open(filepath, "r", encoding="utf-8") as infile:
                 outfile.write(infile.read().rstrip() + "\n")
 
