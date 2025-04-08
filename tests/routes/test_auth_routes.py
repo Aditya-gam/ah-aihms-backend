@@ -123,7 +123,7 @@ def test_user_registration_and_verification(client, db, monkeypatch):
     assert user is not None and user.verified is True
 
 
-def test_login_and_2fa_flow(client, db, monkeypatch):
+def test_login_and_2fa_flow(client, db, monkeypatch, two_factor_user):
     """
     Test login with two-factor authentication enabled.
     First, attempt login and expect a 2FA instruction; then verify the 2FA OTP.
